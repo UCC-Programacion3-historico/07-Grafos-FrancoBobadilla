@@ -72,16 +72,13 @@ int main() {
     gr.arco_agregar(23, 17, 1);
     gr.arco_agregar(24, 17, 1);
     gr.arco_agregar(25, 25, 0);
-    for (int i = 0; i < 26; ++i) {
-        for (int j = 0; j < 26; ++j) {
+    for (int i = 0; i < 26; ++i)
+        for (int j = 0; j < 26; ++j)
             try {
-                cout << endl << "Desde el nodo " << gr.nodo_get_val(i) << " hasta el nodo " << gr.nodo_get_val(j) << " hay conexion con un peso de "
+                cout << endl << "Desde el nodo " << gr.nodo_get_val(i) << " hasta el nodo " << gr.nodo_get_val(j)
+                     << " hay conexion con un peso de "
                      << gr.arco_get_val(i, j) << endl;
-            } catch (int n) {
-                //cout << endl << "No hay conexion desde el nodo " << gr.nodo_get_val(i) << " hasta el nodo " << gr.nodo_get_val(j) << endl;
-            }
-        }
-    }
+            } catch (int e) {}
     for (int i = 0; i < 26; ++i)
         Dijkstra(gr, 26, i);
 }
