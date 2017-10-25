@@ -2,7 +2,6 @@
 
 int main() {
     GrafoEnlazado<char> gr;
-
     gr.nodo_agregar(0, 'a');
     gr.nodo_agregar(1, 'b');
     gr.nodo_agregar(2, 'c');
@@ -33,54 +32,53 @@ int main() {
     gr.arco_agregar(0, 2, 9);
     gr.arco_agregar(0, 22, 7);
     gr.arco_agregar(1, 0, 16);
-    gr.arco_agregar(2, v, 2);
+    gr.arco_agregar(2, 21, 2);
     gr.arco_agregar(3, 1, 0);
     gr.arco_agregar(3, 7, 4);
     gr.arco_agregar(3, 5, 4);
     gr.arco_agregar(4, 4, 1);
-    gr.arco_agregar(5, i, 2);
+    gr.arco_agregar(5, 8, 2);
     gr.arco_agregar(5, 6, 0);
-    gr.arco_agregar(6, 1, 6);
-    gr.arco_agregar(6, 3, 1);
-    gr.arco_agregar(6, p, 18);
-    gr.arco_agregar(7, k, 7);
-    gr.arco_agregar(8, l, 9);
-    gr.arco_agregar(9, 6, 1);
-    gr.arco_agregar(9, 5, 3);
-    gr.arco_agregar(9, i, 17);
-    gr.arco_agregar(10, t, 7);
-    gr.arco_agregar(10, z, 6);
-    gr.arco_agregar(11, r, 6);
-    gr.arco_agregar(11, 24, 1);
-    gr.arco_agregar(12, r, 1);
-    gr.arco_agregar(13, n, 1);
-    gr.arco_agregar(14, 7, 8);
-    gr.arco_agregar(14, i, 5);
-    gr.arco_agregar(14, o, 4);
-    gr.arco_agregar(14, q, 0);
-    gr.arco_agregar(15, o, 2);
-    gr.arco_agregar(16, 24, 15);
-    gr.arco_agregar(17, z, 5);
-    gr.arco_agregar(18, l, 4);
-    gr.arco_agregar(19, j, 3);
-    gr.arco_agregar(19, u, 2);
-    gr.arco_agregar(20, j, 1);
-    gr.arco_agregar(21, v, 1);
+    gr.arco_agregar(7, 1, 6);
+    gr.arco_agregar(7, 3, 1);
+    gr.arco_agregar(7, 15, 18);
+    gr.arco_agregar(8, 10, 7);
+    gr.arco_agregar(9, 11, 9);
+    gr.arco_agregar(10, 6, 1);
+    gr.arco_agregar(10, 5, 3);
+    gr.arco_agregar(10, 8, 17);
+    gr.arco_agregar(11, 19, 7);
+    gr.arco_agregar(11, 25, 6);
+    gr.arco_agregar(12, 16, 6);
+    gr.arco_agregar(12, 24, 1);
+    gr.arco_agregar(13, 17, 1);
+    gr.arco_agregar(14, 13, 1);
+    gr.arco_agregar(15, 7, 8);
+    gr.arco_agregar(15, 8, 5);
+    gr.arco_agregar(15, 14, 4);
+    gr.arco_agregar(15, 16, 0);
+    gr.arco_agregar(16, 14, 2);
+    gr.arco_agregar(17, 24, 15);
+    gr.arco_agregar(18, 25, 5);
+    gr.arco_agregar(19, 11, 4);
+    gr.arco_agregar(19, 9, 3);
+    gr.arco_agregar(19, 20, 2);
+    gr.arco_agregar(20, 9, 1);
+    gr.arco_agregar(21, 21, 1);
     gr.arco_agregar(21, 2, 1);
-    gr.arco_agregar(22, 0, 3);******
-    gr.arco_agregar(23, v, 1);
-    gr.arco_agregar(24, q, 9);
-    gr.arco_agregar(24, r, 1);
-    gr.arco_agregar(25, r, 1);
-    gr.arco_agregar(25, z, 0);
-
-    for (int i = 0; i < 2; ++i) {
+    gr.arco_agregar(22, 0, 3);
+    gr.arco_agregar(22, 21, 1);
+    gr.arco_agregar(23, 16, 9);
+    gr.arco_agregar(23, 17, 1);
+    gr.arco_agregar(24, 17, 1);
+    gr.arco_agregar(25, 25, 0);
+    for (int i = 0; i < 26; ++i) {
         for (int j = 0; j < 26; ++j) {
             try {
-                cout << endl << "Desde el nodo " << i << " hasta el nodo " << j << " hay conexion con un peso de "
+                cout << endl << "Desde el nodo " << gr.nodo_get_val(i) << " hasta el nodo " << gr.nodo_get_val(j) << " hay conexion con un peso de "
                      << gr.arco_get_val(i, j) << endl;
             } catch (int n) {
-                cout << endl << "No hay conexion desde el nodo " << i << " hasta el nodo " << j << endl;
+                //cout << endl << "No hay conexion desde el nodo " << gr.nodo_get_val(i) << " hasta el nodo " << gr.nodo_get_val(j) << endl;
             }
         }
     }

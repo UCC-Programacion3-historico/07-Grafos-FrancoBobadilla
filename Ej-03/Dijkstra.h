@@ -8,16 +8,16 @@
 using namespace std;
 
 void Dijkstra(GrafoEnlazado<char> gr, int tamanio, int origen) {
-    int hasta[tamanio];
+    cout << endl << endl << "Caminos mas cortos posibles desde el nodo '" << gr.nodo_get_val(origen)
+         << "' hasta los demas:" << endl
+         << endl << "Hasta|Peso|Camino" << endl;
     int peso[tamanio];
     int camino[tamanio][tamanio];
     Cola<int> cola;
     for (int i = 0; i < tamanio; ++i) {
-        hasta[i] = i;
-        peso[i] = 2000000000;
-        for (int j = 0; j < tamanio; ++j) {
+        peso[i] = 2147483647; //infinito
+        for (int j = 0; j < tamanio; ++j)
             camino[i][j] = -1;
-        }
     }
     peso[origen] = 0;
     cola.encolar(origen);
@@ -29,7 +29,7 @@ void Dijkstra(GrafoEnlazado<char> gr, int tamanio, int origen) {
                 cola.encolar(i);
                 for (int j = 0; j < tamanio; ++j) {
                     if (camino[origen][j] == -1) {
-                        camino[i][j] = hasta[i];
+                        camino[i][j] = i;
                         j = tamanio;
                     } else {
                         camino[i][j] = camino[origen][j];
@@ -38,16 +38,18 @@ void Dijkstra(GrafoEnlazado<char> gr, int tamanio, int origen) {
             }
         }
     }
-    cout << endl << endl << "Caminos mas cortos posibles desde el nodo '" << gr.nodo_get_val(origen)
-         << "' hasta los demas:" << endl
-         << endl << "Hasta|Peso|Camino" << endl;
     for (int i = 0; i < tamanio; ++i) {
-        cout << gr.nodo_get_val(hasta[i]) << "    |" << peso[i] << "   |";
-        for (int j = 0; j < tamanio; ++j) {
-            if (camino[i][j] != -1)
-                cout << gr.nodo_get_val(camino[i][j]) << " ";
+        if (camino[i][0] != -1 && peso[i] != 2147483647) {
+            if (peso[i] <= 9)
+                cout << gr.nodo_get_val(i) << "    |" << peso[i] << "   |";
+            else
+                cout << gr.nodo_get_val(i) << "    |" << peso[i] << "  |";
+            for (int j = 0; j < tamanio; ++j) {
+                if (camino[i][j] != -1)
+                    cout << gr.nodo_get_val(camino[i][j]) << " ";
+            }
+            cout << endl;
         }
-        cout << endl;
     }
     cout << endl;
 }
