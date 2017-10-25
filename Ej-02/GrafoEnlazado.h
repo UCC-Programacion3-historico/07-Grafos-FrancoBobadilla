@@ -1,68 +1,7 @@
 #ifndef GRAFOENLAZADO_H
 #define GRAFOENLAZADO_H
-
-template<class T>
-class Arco {
-private:
-    int peso;
-    Arco *next;
-    NodoGrafo *nodo_apuntado;
-public:
-    Arco() {
-        nodo_apuntado = nullptr;
-        next = nullptr;
-    }
-
-    Arco(int p, NodoGrafo *d, Arco *n) {
-        peso = p;
-        nodo_apuntado = d;
-        next = n;
-    }
-
-    void setPeso(int p) { peso = p; }
-
-    void setNodoApuntado(NodoGrafo *d) { nodo_apuntado = d; }
-
-    void setNext(Arco *n) { next = n; }
-
-    int getPeso() { return peso; }
-
-    NodoGrafo *getNodoApuntado() { return nodo_apuntado; }
-
-    Arco *getNext() { return next; }
-};
-
-template<class T>
-class NodoGrafo {
-private:
-    T dato;
-    NodoGrafo *next;
-    Arco *arco_apuntado;
-public:
-    NodoGrafo() {
-        next = nullptr;
-        arco_apuntado = nullptr;
-    }
-
-    NodoGrafo(T d, NodoGrafo *n, Arco *a) {
-        dato = d;
-        next = n;
-        arco_apuntado = a;
-    }
-
-    void setDato(int d) { dato = d; }
-
-    void setNext(NodoGrafo *n) { next = n; }
-
-    void setArcos(Arco *a) { arco_apuntado = a; }
-
-    T getDato() { return dato; }
-
-    NodoGrafo *getNext() { return next; }
-
-    Arco *getArcoApuntado() { return arco_apuntado; }
-};
-
+#include "NodoGrafo.h"
+#include "Arco.h"
 template<class T>
 class GrafoEnlazado {
 private:
@@ -101,27 +40,27 @@ GrafoEnlazado<T>::GrafoEnlazado() {
 template<class T>
 void GrafoEnlazado<T>::nodo_agregar(int n, T val) {
     if (n == 0) {
-        NodoGrafo<T> *nn = new NodoGrafo<T>(val, inicio, nullptr);
+        NodoGrafo<T> *nn = new NodoGrafo<T>(val, inicio, nullptr, 0);
         inicio = nn;
         return;
     }
     int cont = 0;
     NodoGrafo<T> *aux = inicio;
 
-    while (aux != NULL && cont < n - 1) {
+    while (aux != nullptr && cont < n - 1) {
         cont++;
         aux = aux->getNext();
     }
-    if (aux == NULL) throw 1;
+    if (aux == nullptr) throw 1;
 
-    NodoGrafo<T> *nn = new NodoGrafo<T>(val, aux->getNext(), nullptr);
+    NodoGrafo<T> *nn = new NodoGrafo<T>(val, aux->getNext(), nullptr, n);
     aux->setNext(nn);
 }
 
 template<class T>
 void GrafoEnlazado<T>::nodo_remover(int n) {
     if (n == 0) {
-        inicio = NULL;
+        inicio = nullptr;
         return;
     }
 
@@ -129,12 +68,12 @@ void GrafoEnlazado<T>::nodo_remover(int n) {
     NodoGrafo<T> *aux = inicio;
     NodoGrafo<T> *tmp;
 
-    while (aux != NULL && cont < n - 1) {
+    while (aux != nullptr && cont < n - 1) {
         cont++;
         aux = aux->getNext();
     }
 
-    if (aux == NULL) throw 1;
+    if (aux == nullptr) throw 1;
 
     tmp = aux->getNext();
     aux->setNext(tmp->getNext());
@@ -145,11 +84,11 @@ template<class T>
 void GrafoEnlazado<T>::nodo_set_val(int n, T val) {
     NodoGrafo<T> *aux = inicio;
     int cont = 0;
-    while (cont < n && aux != NULL) {
+    while (cont < n && aux != nullptr) {
         cont++;
         aux = aux->getNext();
     }
-    if (aux == NULL)throw 1;
+    if (aux == nullptr)throw 1;
     aux->setDato(val);
 }
 
@@ -157,7 +96,7 @@ template<class T>
 T GrafoEnlazado<T>::nodo_get_val(int n) {
     NodoGrafo<T> *aux = inicio;
     int cont = 0;
-    while (cont < n && aux != NULL) {
+    while (cont < n && aux != nullptr) {
         cont++;
         aux = aux->getNext();
     }
@@ -171,21 +110,20 @@ void GrafoEnlazado<T>::arco_agregar(int n1, int n2, int val) {
     NodoGrafo<T> *aux1 = inicio;
     NodoGrafo<T> *aux2 = inicio;
     int cont = 0;
-    while (cont < n1 && aux1 != NULL) {
+    while (cont < n1 && aux1 != nullptr) {
         cont++;
         aux1 = aux1->getNext();
     }
     if (n1 != cont) throw 1;
     cont = 0;
-    while (cont < n2 && aux2 != NULL) {
+    while (cont < n2 && aux2 != nullptr) {
         cont++;
         aux2 = aux2->getNext();
     }
     if (n2 != cont) throw 1;
     Arco<T> *tmp = aux1->getArcoApuntado();
-    while (tmp != NULL) {
-        if (tmp->getNodoApuntado() == aux2)
-            throw 1;
+    while (tmp != nullptr) {
+        if (tmp->getNodoApuntado() == aux2) throw 1;
         tmp = tmp->getNext();
     }
     Arco<T> *na = new Arco<T>(val, aux2, aux1->getArcoApuntado());
@@ -194,32 +132,136 @@ void GrafoEnlazado<T>::arco_agregar(int n1, int n2, int val) {
 
 template<class T>
 void GrafoEnlazado<T>::arco_remover(int n1, int n2) {
-
+    NodoGrafo<T> *aux1 = inicio;
+    NodoGrafo<T> *aux2 = inicio;
+    int cont = 0;
+    while (cont < n1 && aux1 != nullptr) {
+        cont++;
+        aux1 = aux1->getNext();
+    }
+    if (n1 != cont) throw 1;
+    cont = 0;
+    while (cont < n2 && aux2 != nullptr) {
+        cont++;
+        aux2 = aux2->getNext();
+    }
+    if (n2 != cont) throw 1;
+    Arco<T> *tmp = aux1->getArcoApuntado();
+    while (tmp != nullptr) {
+        if (tmp->getNodoApuntado() == aux2) {
+            tmp->setNodoApuntado(nullptr);
+            delete tmp;
+            return;
+        }
+        tmp = tmp->getNext();
+    }
+    throw 1;
 }
 
 template<class T>
 void GrafoEnlazado<T>::arco_set_val(int n1, int n2, int val) {
-
+    NodoGrafo<T> *aux1 = inicio;
+    NodoGrafo<T> *aux2 = inicio;
+    int cont = 0;
+    while (cont < n1 && aux1 != nullptr) {
+        cont++;
+        aux1 = aux1->getNext();
+    }
+    if (n1 != cont) throw 1;
+    cont = 0;
+    while (cont < n2 && aux2 != nullptr) {
+        cont++;
+        aux2 = aux2->getNext();
+    }
+    if (n2 != cont) throw 1;
+    Arco<T> *tmp = aux1->getArcoApuntado();
+    while (tmp != nullptr) {
+        if (tmp->getNodoApuntado() == aux2) {
+            tmp->setPeso(val);
+            return;
+        }
+        tmp = tmp->getNext();
+    }
+    throw 1;
 }
 
 template<class T>
 int GrafoEnlazado<T>::arco_get_val(int n1, int n2) {
-    return 0;
+    NodoGrafo<T> *aux1 = inicio;
+    NodoGrafo<T> *aux2 = inicio;
+    int cont = 0;
+    while (cont < n1 && aux1 != nullptr) {
+        cont++;
+        aux1 = aux1->getNext();
+    }
+    if (n1 != cont) throw 1;
+    cont = 0;
+    while (cont < n2 && aux2 != nullptr) {
+        cont++;
+        aux2 = aux2->getNext();
+    }
+    if (n2 != cont) throw 1;
+    Arco<T> *tmp = aux1->getArcoApuntado();
+    while (tmp != nullptr) {
+        if (tmp->getNodoApuntado() == aux2)
+            return tmp->getPeso();
+        tmp = tmp->getNext();
+    }
+    throw 1;
 }
 
 template<class T>
 int GrafoEnlazado<T>::adyacentes(int n1, int n2) {
-    return 0;
+    NodoGrafo<T> *aux1 = inicio;
+    NodoGrafo<T> *aux2 = inicio;
+    int cont = 0;
+    while (cont < n1 && aux1 != nullptr) {
+        cont++;
+        aux1 = aux1->getNext();
+    }
+    if (n1 != cont) throw 1;
+    cont = 0;
+    while (cont < n2 && aux2 != nullptr) {
+        cont++;
+        aux2 = aux2->getNext();
+    }
+    if (n2 != cont) throw 1;
+    Arco<T> *tmp = aux1->getArcoApuntado();
+    while (tmp != nullptr) {
+        if (tmp->getNodoApuntado() == aux2)
+            return true;
+        tmp = tmp->getNext();
+    }
+    return false;
 }
 
 template<class T>
 int *GrafoEnlazado<T>::vecinos(int n) {
-    return nullptr;
+    NodoGrafo<T> *aux1 = inicio;
+    int cont = 0;
+    while (cont < n && aux1 != nullptr) {
+        cont++;
+        aux1 = aux1->getNext();
+    }
+    if (n != cont) throw 1;
+    cont = 0;
+    Arco<T> *tmp = aux1->getArcoApuntado();
+    while (tmp != nullptr) {
+        cont++;
+        tmp = tmp->getNext();
+    }
+    int salida[cont];
+    tmp = aux1->getArcoApuntado();
+    for (int i = 0; i < cont; ++i) {
+        salida[i] = tmp->getNodoApuntado()->getPosicion();
+        tmp = tmp->getNext();
+    }
+    return salida;
 }
 
 template<class T>
 bool GrafoEnlazado<T>::esVacio() {
-    return false;
+    return inicio == nullptr;
 }
 
 
