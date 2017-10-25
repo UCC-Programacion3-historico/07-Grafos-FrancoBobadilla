@@ -40,6 +40,7 @@ GrafoEnlazado<T>::GrafoEnlazado() {
 template<class T>
 void GrafoEnlazado<T>::nodo_agregar(int n, T val) {
     if (n == 0) {
+        if(inicio!= nullptr)throw 1;
         NodoGrafo<T> *nn = new NodoGrafo<T>(val, inicio, nullptr, 0);
         inicio = nn;
         return;

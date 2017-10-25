@@ -7,8 +7,8 @@ int main() {
     GrafoEnlazado<string> gr;
     gr.nodo_agregar(0, "Hola");
     gr.nodo_agregar(1, "Como");
-    gr.nodo_agregar(2, "Chau");
-    gr.nodo_agregar(3, "Si");
+    gr.nodo_agregar(3, "Chau");
+    gr.nodo_agregar(4, "Si");
     gr.arco_agregar(0, 2, 3);
     gr.arco_agregar(0, 1, 2);
     gr.arco_agregar(1, 0, 3);
